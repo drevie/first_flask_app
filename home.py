@@ -1,6 +1,6 @@
 
 from flask import Flask, render_template
-from flask.ext.mysql import MySQL
+# from flask.ext.mysql import MySQL
 
 
 import urllib2;
