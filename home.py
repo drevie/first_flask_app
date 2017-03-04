@@ -3,17 +3,6 @@ from flask import Flask, render_template
 # from flask.ext.mysql import MySQL
 
 
-import urllib2;
-# sudo apt-get install python3-lxml
-# sudo apt-get install python-lxml
-# apt-get install python-dev libxml2 libxml2-dev libxslt-dev
-from lxml import html;
-import requests;
-import string;
-import time;
-#sudo pip install -U nltk
-from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters;
-
 # mysql = MySQL()
 app = Flask(__name__)
 
