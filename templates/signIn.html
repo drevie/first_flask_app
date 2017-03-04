@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Sign In</title>
+ 
+    
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <link href="../static/signup.css" rel="stylesheet">
+
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/signUp.js"></script>
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <div class="header">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" ><a href="home">Home</a></li>
+            <li role="presentation"><a href="showSignIn">Sign In</a></li>
+            <li role="presentation" class="active"><a href="customerRegistration">Sign Up</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Hulton Hotels</h3>
+      </div>
+ 
+      <div class="jumbotron">
+        <h1>Sign In</h1>
+        <form class="form-bookhotel">
+        <label for="inputID" class="sr-only">ID</label>
+        <input type="name" name="inputID" id="inputID" class="form-control" placeholder="ID" required autofocus>
+        <label for="password" class="sr-only">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required autofocus>
+        <br><br>
+        <button id="btnSignUp" class="btn btn-lg btn-primary btn-block" type="button" >Sign up</button>
+      </form>
+      </div>
+ 
+       
+ 
+      <footer class="footer">
+        <p>&copy; Mr J 2017</p>
+      </footer>
+ 
+    </div>
+  </body>
+</html>
