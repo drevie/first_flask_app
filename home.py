@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, json, request
+from flask import Flask, render_template
 from flask.ext.mysql import MySQL
 
 
@@ -14,18 +14,15 @@ import time;
 #sudo pip install -U nltk
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters;
 
-
-
-
-mysql = MySQL()
+# mysql = MySQL()
 app = Flask(__name__)
 
 # MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'milo'
-app.config['MYSQL_DATABASE_DB'] = 'BucketList'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-mysql.init_app(app)
+# app.config['MYSQL_DATABASE_USER'] = 'root'
+# app.config['MYSQL_DATABASE_PASSWORD'] = 'milo'
+# app.config['MYSQL_DATABASE_DB'] = 'BucketList'
+# app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+# mysql.init_app(app)
 
 
 @app.route('/')
