@@ -1,0 +1,111 @@
+ {% include "header.html" %}
+ <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                    Sign up for a new Account!
+                    </h2>
+                    <hr>
+                    
+                    <hr class="visible-xs">
+                    <link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all">
+                    
+                    <div class="main-agileits">
+                    <div class="sub-main">  
+                        <form action="{{ url_for('check_login') }}" method="post">
+                            <input placeholder="Username" name="username" class="name" type="text" required="">
+                                <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br>
+                            <input  placeholder="Password" name="password" class="pass" type="password" required="">
+                                <span class="icon5"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                    Sign up for a new Account!
+                    </h2>
+                    <hr>
+                    
+                    <hr class="visible-xs">
+                    <link href="../static/css/style.css" rel="stylesheet" type="text/css" media="all">
+                       <div class="box">
+    <a class="button" href="#popup1">Let me Pop up</a>
+    </div>
+                    <div class="main-agileits">
+                    <div class="sub-main">  
+                        <form action="{{ url_for('check_login') }}" method="post">
+                            <input placeholder="First Name" name="Name" class="name" type="text" required="">
+                                <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br>
+                            <input placeholder="Last Name" name="Name" class="name2" type="text" required="">
+                                <span class="icon2"><i class="fa fa-user" aria-hidden="true"></i></span><br>
+                            <input placeholder="Phone Number" name="Number" class="number" type="text" required="">
+                                <span class="icon3"><i class="fa fa-phone" aria-hidden="true"></i></span><br>
+                            <input placeholder="Email" name="mail" class="mail" type="text" required="">
+                                <span class="icon4"><i class="fa fa-envelope" aria-hidden="true"></i></span><br>
+                            <input  placeholder="Password" name="Password" class="pass" type="password" required="">
+                                <span class="icon5"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
+                            <input  placeholder="Confirm Password" name="Password" class="pass" type="password" required="">
+                                <span class="icon6"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
+                            
+                            <input type="submit" value="sign up">
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+<div id="popup1" class="overlay">
+    <div class="popup">
+        <h2> </h2>
+        <a class="close" href="#">&times;</a>
+        <div class="content">
+            Thank to pop me out of that button, but now i'm done so you can close this window.
+        </div>
+    </div>
+</div>
+
+
+
+</body>

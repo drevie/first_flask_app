@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session, request, flash
 # from flask.ext.mysql import MySQL
 
 
@@ -21,7 +21,7 @@ def main():
 
 @app.route('/home')
 def showHomeTool():
-    return render_template('index.html')
+    return render_template('index.html' )
 
 
 @app.route('/customerRegistration')
@@ -44,6 +44,22 @@ def bookHotel():
     return render_template('bookHotel.html')
 
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def check_login():
+    session["username"] = request.form.get("username")
+    session["password"] = request.form.get("password")
+    if( session["username"] == "9999" ):
+        session["logged_in"] = True
+    return render_template('login.html') 
+'''
+def create_user():
+    print("SUER MADE")
+    return render_template('login.html')
+'''
+@app.route('/header')
+def header():
+    return render_template('login.html')
 '''
 @app.route('/signUp',methods=['POST', 'GET'])
 def signUp():
@@ -79,4 +95,9 @@ def signUp():
 '''
 
 if __name__ == "__main__":
-    app.run()
+    app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+    app.TEMPLATES_AUTO_RELOAD = True
+    app.run(debug=True)
+    session["logged_in"] = Flase
+    is_auth = False
+    session.clear() 
