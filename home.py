@@ -56,12 +56,14 @@ def registerCustomer():
 @app.route('/updateCustomer', methods=['PUT'])
 def updateCustomer():
 
+    '''
     first_name = request.form['Name1']
     last_name = request.form['Name2']
     phone_number = request.form['Number']
     email = request.form['mail']
     password = request.form['Password']
     passwordConfirm = request.form['Password2']
+    '''
 
     # this is the command to update the databse
     # db.hotel_db.cursor.execute(''' UPDATE customers SET ownerId=? WHERE id=?''', (ownerID, meetingID))

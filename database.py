@@ -21,26 +21,34 @@ class Hotel_DB:
             password VARCHAR)
             ''')
 
+        self.cursor.execute('''
+            CREATE TABLE rooms(
+            roomID INTEGER PRIMARY KEY,
+            bookedFrom DATE,
+            bookedTo DATE,
+            discount INT
+            ) ''')
 
         self.cursor.execute('''
-            CREATE TABLE hosts(
-            id INTEGER PRIMARY KEY,
-            email VARCHAR) ''')
+            CREATE TABLE reservations(
+            reservationID INTEGER PRIMARY KEY,
+            customerID INTEGER,
+            roomID VARCHAR,
+            breakfastsOrdered VARCHAR,
+            servicesOrdered VARCHAR,
+            paymentOwed INT
+            FOREIGN KEY(customerID) REFERENCES customer(cid)
+            FOREIGN KEY(roomID) REFERENCES rooms(roomID)
+            )''')
 
-        # Create a meetings table for this API with the cursor
         self.cursor.execute('''
-            CREATE TABLE meetings(
-            id INTEGER PRIMARY KEY,
-            ownerID INTEGER,
-            FOREIGN KEY(ownerID) REFERENCES hosts(id))''')
+            CREATE TABLE reviews(
+            reviewID INTEGER PRIMARY KEY,
+            reviewCategory VARCHAR,
+            customerID INT,
+            FOREIGN KEY(customerID) REFERENCES customers(cid)
+            )''')
 
-        self.cursor.execute('''
-        CREATE TABLE recordings(
-        url VARCHAR PRIMARY KEY,
-        protectionLevel VARCHAR,
-        password VARCHAR,
-        meetingID INTEGER,
-        FOREIGN KEY(meetingID) REFERENCES meetings(id))''')
 
         self.db.commit()
 
