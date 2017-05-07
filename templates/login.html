@@ -43,10 +43,10 @@
                        
                     <div class="main-agileits">
                     <div class="sub-main">  
-                        <form action="{{ url_for('check_login') }}" method="post" name="register">
-                            <input placeholder="First Name" name="Name" class="name" type="text" required="">
+                        <form action="{{ url_for('registerCustomer') }}" method="post">
+                            <input placeholder="First Name" name="Name1" class="name1" type="text" required="">
                                 <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br>
-                            <input placeholder="Last Name" name="Name" class="name2" type="text" required="">
+                            <input placeholder="Last Name" name="Name2" class="name2" type="text" required="">
                                 <span class="icon2"><i class="fa fa-user" aria-hidden="true"></i></span><br>
                             <input placeholder="Phone Number" name="Number" class="number" type="text" required="">
                                 <span class="icon3"><i class="fa fa-phone" aria-hidden="true"></i></span><br>
@@ -54,7 +54,7 @@
                                 <span class="icon4"><i class="fa fa-envelope" aria-hidden="true"></i></span><br>
                             <input  placeholder="Password" name="Password" class="pass" type="password" required="">
                                 <span class="icon5"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
-                            <input  placeholder="Confirm Password" name="Password" class="pass" type="password" required="">
+                            <input  placeholder="Confirm Password" name="Password2" class="pass" type="password" required="">
                                 <span class="icon6"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
                             
                             <input type="submit" value="sign_up" name="submit">

@@ -1,5 +1,6 @@
 
 from flask import Flask, render_template, session, request, flash, redirect
+import database as db
 # from flask.ext.mysql import MySQL
 
 
@@ -21,12 +22,49 @@ def main():
 
 @app.route('/home')
 def showHomeTool():
-    return render_template('index.html' )
+    return render_template('index.html')
 
 
 @app.route('/customerRegistration')
 def showRegisterTool():
     return render_template('customerRegister.html')
+
+
+@app.route('/registerCustomer', methods=['POST'])
+def registerCustomer():
+
+    # first_name = request.args.get('Name1')
+    first_name = request.form['Name1']
+    last_name = request.form['Name2']
+    phone_number = request.form['Number']
+    email = request.form['mail']
+    password = request.form['Password']
+    passwordConfirm = request.form['Password2']
+
+    print(first_name)
+    print(last_name)
+    print(phone_number)
+    print(email)
+    print(password)
+    print(passwordConfirm)
+
+    db.hotel_db.cursor.execute('''INSERT INTO customers(firstName, lastName, phone, email, password) VALUES(?,?,?,?,?)''', (first_name, last_name, phone_number, email, password))
+
+    return render_template('index.html')
+
+
+@app.route('/updateCustomer', methods=['PUT'])
+def updateCustomer():
+
+    first_name = request.form['Name1']
+    last_name = request.form['Name2']
+    phone_number = request.form['Number']
+    email = request.form['mail']
+    password = request.form['Password']
+    passwordConfirm = request.form['Password2']
+
+
+    db.hotel_db.cursor.execute(''' UPDATE customers SET ownerId=? WHERE id=?''', (ownerID, meetingID))
 
 
 @app.route('/showSignIn')
@@ -43,18 +81,21 @@ def showSignUp():
 def bookHotel():
     return render_template('bookHotel.html')
 
+
 @app.route('/login')
 def login():
     print("got here")
-    return render_template('login.html') 
+    return render_template('login.html')
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def check_login():
     if request.form['submit'] == 'login':
-        #USER LOGIN STUFF HERE
+        # USER LOGIN STUFF HERE
         session["logged_in"] = False
         session["username"] = request.form.get("username")
         session["password"] = request.form.get("password")
-        if( session["username"] == "9999" ):
+        if(session["username"] == "9999"):
             session["logged_in"] = True
             return render_template('login.html') 
         else:
@@ -64,19 +105,22 @@ def check_login():
         # NEW USER STUFF HERE
         return render_template('login.html')
 
+
 @app.route('/signout')
 def signout():
     session.clear()
-    return render_template('index.html' )
+    return render_template('index.html')
+
 
 @app.route('/reservation')
 def reservation():
-    return render_template('reservation.html' )
+    return render_template('reservation.html')
+
 
 @app.route('/user_page', methods=['GET', 'POST'])
 def user_page():
     if request.method == 'GET':
-        #Get User credentials from SQL here and Populate these variables!
+        # Get User credentials from SQL here and Populate these variables!
         username = "user"
         password = "me"
         fname = "cream cheese"
@@ -84,9 +128,9 @@ def user_page():
         email = "me@me"
         phone = "112233"
         print("in update user page thing")
-        return render_template('userpage.html', **locals() )
+        return render_template('userpage.html', **locals())
     else:
-        #Update user credentials here
+        # Update user credentials here
         username = request.form['submit']
         password = request.form['password']
         fname = request.form['fname']
@@ -94,9 +138,12 @@ def user_page():
         email = request.form['mail']
         phone = request.form['number']
 
+
 @app.route('/header')
 def header():
     return render_template('login.html')
+
+
 '''
 @app.route('/signUp',methods=['POST', 'GET'])
 def signUp():
@@ -132,9 +179,14 @@ def signUp():
 '''
 
 if __name__ == "__main__":
+    global db
+
+    db.init()
+
     app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
     app.TEMPLATES_AUTO_RELOAD = True
     app.run(debug=True)
-    session["logged_in"] = Flase
+    session["logged_in"] = False
     is_auth = False
-    session.clear() 
+    session.clear()
+
