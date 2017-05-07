@@ -1,5 +1,5 @@
 
-from flask import Flask, render_template, session, request, flash
+from flask import Flask, render_template, session, request, flash, redirect
 # from flask.ext.mysql import MySQL
 
 
@@ -43,20 +43,57 @@ def showSignUp():
 def bookHotel():
     return render_template('bookHotel.html')
 
-
-
+@app.route('/login')
+def login():
+    print("got here")
+    return render_template('login.html') 
 @app.route('/login', methods=['GET', 'POST'])
 def check_login():
-    session["username"] = request.form.get("username")
-    session["password"] = request.form.get("password")
-    if( session["username"] == "9999" ):
-        session["logged_in"] = True
-    return render_template('login.html') 
-'''
-def create_user():
-    print("SUER MADE")
-    return render_template('login.html')
-'''
+    if request.form['submit'] == 'login':
+        #USER LOGIN STUFF HERE
+        session["logged_in"] = False
+        session["username"] = request.form.get("username")
+        session["password"] = request.form.get("password")
+        if( session["username"] == "9999" ):
+            session["logged_in"] = True
+            return render_template('login.html') 
+        else:
+            flash("Your login credentials were incorrect")
+            return redirect("/login#popup1")
+    else:
+        # NEW USER STUFF HERE
+        return render_template('login.html')
+
+@app.route('/signout')
+def signout():
+    session.clear()
+    return render_template('index.html' )
+
+@app.route('/reservation')
+def reservation():
+    return render_template('reservation.html' )
+
+@app.route('/user_page', methods=['GET', 'POST'])
+def user_page():
+    if request.method == 'GET':
+        #Get User credentials from SQL here and Populate these variables!
+        username = "user"
+        password = "me"
+        fname = "cream cheese"
+        lname = "ketchup"
+        email = "me@me"
+        phone = "112233"
+        print("in update user page thing")
+        return render_template('userpage.html', **locals() )
+    else:
+        #Update user credentials here
+        username = request.form['submit']
+        password = request.form['password']
+        fname = request.form['fname']
+        lname = request.form['lname']
+        email = request.form['mail']
+        phone = request.form['number']
+
 @app.route('/header')
 def header():
     return render_template('login.html')

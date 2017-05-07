@@ -19,19 +19,19 @@
                     
                     <div class="main-agileits">
                     <div class="sub-main">  
-                        <form action="{{ url_for('update_credentials') }}" method="post">
-                            <input placeholder="First Name" name="Name" class="name" type="text" required="">
+                        <form action="{{ url_for('user_page') }}" method="post">
+                        	<input placeholder="Username" name="username" class="name" type="text" required="" value = {{username}}>
                                 <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br>
-                            <input placeholder="Last Name" name="Name" class="name2" type="text" required="">
+                            <input placeholder="First Name" name="Name" class="name" type="text" required="" value = {{fname}}>
+                                <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br>
+                            <input placeholder="Last Name" name="Name" class="name2" type="text" required="" value = {{lname}}>
                                 <span class="icon2"><i class="fa fa-user" aria-hidden="true"></i></span><br>
-                            <input placeholder="Phone Number" name="Number" class="number" type="text" required="">
+                            <input placeholder="Phone Number" name="Number" class="number" type="text" required="" value = {{phone}}>
                                 <span class="icon3"><i class="fa fa-phone" aria-hidden="true"></i></span><br>
-                            <input placeholder="Email" name="mail" class="mail" type="text" required="">
+                            <input placeholder="Email" name="mail" class="mail" type="text" required="" value = {{email}}>
                                 <span class="icon4"><i class="fa fa-envelope" aria-hidden="true"></i></span><br>
-                            <input  placeholder="Password" name="Password" class="pass" type="password" required="">
+                            <input  placeholder="Password" name="Password" class="pass" type="password" required="" value="{{password}}">
                                 <span class="icon5"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
-                            <input  placeholder="Confirm Password" name="Password" class="pass" type="password" required="">
-                                <span class="icon6"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
                             
                             <input type="submit" value="Update">
                         </form>
@@ -64,11 +64,7 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
 
     <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
-    </script>
+
 
 </body>
 

@@ -1,0 +1,182 @@
+    {% include "header.html" %}
+        <link rel="stylesheet" type="text/css" href="../static/css/easydropdown.metro.css" media="all">
+
+        <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../static/js/jquery.easydropdown.js"></script>
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                    Make a Reservation
+                    </h2>
+                    <hr>
+                    <table>
+                    <tr>
+                    <td> Select Country</td>
+                    <td><span style="display:inline-block; width: 25px;"></span></td>
+                    <td> Select State</td>
+                    <td><span style="display:inline-block; width: 25px;"></span></td>
+                    <td>Check-in</span></td>
+                    <td><span style="display:inline-block; width: 25px;"></span></td>
+                    <td>Check-out</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="dropdown" id="ddl" onchange="configureDropDownLists(this,document.getElementById('ddl2'))">
+                                <option value="None"> </option>
+                                <option value="USA">United States</option>
+                                <option value="India">India</option>
+                            </select>
+                        </td>
+                        <td><span style="display:inline-block; width: 25px;"></span></td>
+                        <td>
+                            <select class="dropdown" id="ddl2">
+                            <option value="None"> </option>
+
+                            </select>
+                        </td>
+                        <td><span style="display:inline-block; width: 25px;"></span></td>
+                        <td> <input type="date" name="in" id="in"> </td>
+
+                        <td><span style="display:inline-block; width: 25px;"></span></td>
+                        <td> <input type="date" name="out" onchange="check_date()" id="out"> </td>
+
+                        <td><span style="display:inline-block; width: 25px;"></span></td>
+                        <td> <input type="submit" name="submit" value="Search Rooms"> </td>
+                    </tr>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                        Available Rooms
+                    </h2>
+                    <hr>
+                    <style type="text/css">
+                        .tg  {border-collapse:collapse;border-spacing:0; width: 100%; text-align:center;}
+                        .tg tr:hover td{background: rgba(0,0,0,0.2); !important;}
+                        .tg td{font-family:Arial, sans-serif;font-size:14px;padding:12px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px; text-align:center;}
+                        .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 20px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;border-top-width:1px;border-bottom-width:1px; text-align:center;}
+                        .tg .tg-sl89{font-size:18px;font-family:"Comic Sans MS", cursive, sans-serif !important;;vertical-align:top}
+                        .tg .tg-0nu3{font-weight:bold;font-size:18px;font-family:"Comic Sans MS", cursive, sans-serif !important;;background-color:#efefef;color:#444444}
+                        .tg .tg-x49a{font-weight:bold;font-size:18px;font-family:"Comic Sans MS", cursive, sans-serif !important;;background-color:#efefef;color:#444444;vertical-align:top}
+                    </style>
+                    <table class="tg">
+                      <tr>
+                        <th class="tg-0nu3">Room Type</th>
+                        <th class="tg-x49a">Number of Available Rooms</th>
+                        <th class="tg-x49a">Price Per Room</th>
+                      </tr>
+                      <tr>
+                        <td class="tg-sl89"></td>
+                        <td class="tg-sl89"></td>
+                        <td class="tg-sl89"></td>
+                      </tr>
+                      <tr>
+                        <td class="tg-sl89"></td>
+                        <td class="tg-sl89"></td>
+                        <td class="tg-sl89"></td>
+                      </tr>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+    <script type="text/javascript">
+     function configureDropDownLists(ddl1,ddl2) {
+        var colours = new Array('New York', 'California', 'Florida');
+        var shapes = new Array('Delhi', 'Mumbai', 'Banglore');
+        var names = new Array('John', 'David', 'Sarah');
+    
+        switch (ddl1.value) {
+            case 'USA':
+                ddl2.options.length = 0;
+                for (i = 0; i < colours.length; i++) {
+                    createOption(ddl2, colours[i], colours[i]);
+                }
+                break;
+            case 'India':
+                ddl2.options.length = 0; 
+            for (i = 0; i < shapes.length; i++) {
+                createOption(ddl2, shapes[i], shapes[i]);
+                }
+                break;
+                default:
+                    ddl2.options.length = 0;
+                break;
+        }
+
+    }
+
+    function createOption(ddl, text, value) {
+        var opt = document.createElement('option');
+        opt.value = value;
+        opt.text = text;
+        ddl.options.add(opt);
+    }
+</script>
+
+<script type="text/javascript">
+function check_date() {
+    var objFromDate = document.getElementById("in").value;
+var objToDate = document.getElementById("out").value;
+ 
+var date1 = new Date(objFromDate);
+var date2 = new Date(objToDate);
+ 
+var date3 = new Date();
+var date4 = date3.getMonth() + "/" + date3.getDay() + "/" + date3.getYear();
+var currentDate = new Date(date4);
+ 
+    if(date1 > date2)
+    {
+        alert("fromdate should be less than todate");
+        return false; 
+    }
+    else if(date1 > currentDate)
+    {
+        alert("From Date should be less than current date");
+        return false; 
+    }
+               else if(date2 > currentDate) 
+               {
+                   alert("To Date should be less than current date");
+        return false; 
+                }
+}
+    
+</script>
+</body>
+
+</html>
