@@ -63,8 +63,8 @@ def updateCustomer():
     password = request.form['Password']
     passwordConfirm = request.form['Password2']
 
-
-    db.hotel_db.cursor.execute(''' UPDATE customers SET ownerId=? WHERE id=?''', (ownerID, meetingID))
+    # this is the command to update the databse
+    # db.hotel_db.cursor.execute(''' UPDATE customers SET ownerId=? WHERE id=?''', (ownerID, meetingID))
 
 
 @app.route('/showSignIn')
