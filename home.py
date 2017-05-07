@@ -191,4 +191,3 @@ if __name__ == "__main__":
     session["logged_in"] = False
     is_auth = False
     session.clear()
-

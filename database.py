@@ -12,43 +12,145 @@ class Hotel_DB:
     def spinDB(self):
 
         self.cursor.execute('''
-            CREATE TABLE customers(
-            cid INTEGER PRIMARY KEY,
-            firstName VARCHAR,
-            lastName VARCHAR,
-            phone VARCHAR,
-            email VARCHAR,
-            password VARCHAR)
-            ''')
+            CREATE TABLE Hotel(
+                HotelID int primary key,
+                Phone_no varchar(255),
+                Street varchar(50),
+                City varchar(50),
+                Country varchar(50),
+                zip int
+                )''')
 
         self.cursor.execute('''
-            CREATE TABLE rooms(
-            roomID INTEGER PRIMARY KEY,
-            bookedFrom DATE,
-            bookedTo DATE,
-            discount INT
-            ) ''')
+            CREATE TABLE Breakfast(
+                HotelID int,
+                bType varchar(50),
+                description varchar(100),
+                bprice real,
+                primary key(HotelID, bType),
+                foreign key(HotelID) references Hotel(HotelID)
+                )''')
 
         self.cursor.execute('''
-            CREATE TABLE reservations(
-            reservationID INTEGER PRIMARY KEY,
-            customerID INTEGER,
-            roomID VARCHAR,
-            breakfastsOrdered VARCHAR,
-            servicesOrdered VARCHAR,
-            paymentOwed INT,
-            FOREIGN KEY(customerID) REFERENCES customer(cid),
-            FOREIGN KEY(roomID) REFERENCES rooms(roomID)
+            CREATE TABLE Service(
+                HotelID int,
+                sType varchar(50),
+                sCost int,
+                primary key(HotelID, sType),
+                foreign key(HotelID) references Hotel(HotelID)
             )''')
 
         self.cursor.execute('''
-            CREATE TABLE reviews(
-            reviewID INTEGER PRIMARY KEY,
-            reviewCategory VARCHAR,
-            customerID INT,
-            FOREIGN KEY(customerID) REFERENCES customers(cid)
+            CREATE TABLE Room(
+                HotelID int,
+                Room_no int,
+                Price real,
+                Capacity int,
+                Floor_no int,
+                Description varchar(100),
+                Type varchar(50),
+                primary key(HotelID, Room_no),
+                foreign key(HotelID) references Hotel(HotelID)
             )''')
 
+        self.cursor.execute('''
+            CREATE TABLE OfferRoom(
+                HotelID int,
+                Room_no int,
+                Sdate date,
+                Discount real,
+                Edate date,
+                primary key(Room_no, HotelID),
+                foreign key(HotelID) references Hotel(HotelID)
+            )''')
+
+        self.cursor.execute('''
+            CREATE TABLE Customer(
+                CID int primary key,
+                email varchar(50),
+                address varchar(50),
+                Phone_no varchar(50),
+                Name varchar(50)
+            )''')
+
+        self.cursor.execute('''
+            CREATE TABLE CreditCard(
+                Cnumber int,
+                BillingAddress varchar(100),
+                Name varchar(50),
+                SecCode int,
+                Type varchar(50),
+                ExpDate date,
+                CID int,
+                primary key(Cnumber),
+                foreign key(Name, CID) references Customer(Name, CID)
+            )''')
+
+        self.cursor.execute('''
+            CREATE TABLE Review(
+                ReviewID int primary key,
+                Rating int check(Rating>=1 AND Rating<=5),
+                TextComment varchar(255),
+                CID int,
+                foreign key(CID) references Customer(CID)
+            )''')
+
+        self.cursor.execute('''
+            CREATE TABLE RoomReview(
+                ReviewID int,
+                Room_no int,
+                HotelID int,
+                CID int,
+                primary key(ReviewID, Room_no, HotelID, CID),
+                foreign key(ReviewID) references Review(ReviewID),
+                foreign key(Room_no) references Room(Room_no),
+                foreign Key(HotelID) references Hotel(HotelID),
+                foreign key(CID) references Customer(CID)
+            )''')
+
+        self.cursor.execute('''
+            CREATE TABLE BreakfastReview(
+                ReviewID int,
+                bType varchar(50),
+                HotelId int,
+                CID int,
+                primary key(ReviewID, bType, HotelID, CID),
+                foreign key(ReviewID) references Review(ReviewID),
+                foreign key(HotelID) references Hotel(HotelID),
+                foreign key(bType) references Breakfast(bType),
+                foreign key(CID) references Review(CID)
+            )''')
+
+        self.cursor.execute('''
+            CREATE TABLE ServiceReview(
+                ReviewID int,
+                sType varchar(40),
+                HotelID int,
+                foreign key(ReviewID) references Review(ReviewID),
+                foreign key(HotelID) references Hotel(HotelID),
+                primary key(ReviewId, sType, HotelID)
+            )''')
+
+        self.cursor.execute('''
+            CREATE TABLE Reservation(
+                InvoiceNo int,
+                ResDate date,
+                InDate date,
+                OutDate, date,
+                Room_no int,
+                HotelID int,
+                CID int,
+                Cnumber int,
+                sType varchar(50),
+                bType varchar(50),
+                primary key(InvoiceNo, HotelID, CID),
+                foreign key(Room_no) references Room(Room_no),
+                foreign key(HotelID) references Hotel(HotelID),
+                foreign key(Cnumber) references CreditCard(Cnumber)
+                foreign key(bType) references Breakfast(bType),
+                foreign key(sType) references Service(sType)
+                foreign key(CID) references Customer(CID)
+            )''')
 
         self.db.commit()
 
@@ -88,11 +190,6 @@ class Hotel_DB:
             },
 
         ]
-
-        self.cursor.execute(''' INSERT INTO customers(firstName, lastName, phone, email, password) VALUES (?,?,?,?,?) ''', (customers[0]['firstName'], customers[0]['lastName'], customers[0]['phone'], customers[0]['email'], customers[0]['password']))
-        self.cursor.execute(''' INSERT INTO customers(firstName, lastName, phone, email, password) VALUES (?,?,?,?,?) ''', (customers[1]['firstName'], customers[1]['lastName'], customers[1]['phone'], customers[1]['email'], customers[1]['password']))
-        self.cursor.execute(''' INSERT INTO customers(firstName, lastName, phone, email, password) VALUES (?,?,?,?,?) ''', (customers[2]['firstName'], customers[2]['lastName'], customers[2]['phone'], customers[2]['email'], customers[2]['password']))
-        self.cursor.execute(''' INSERT INTO customers(firstName, lastName, phone, email, password) VALUES (?,?,?,?,?) ''', (customers[3]['firstName'], customers[3]['lastName'], customers[3]['phone'], customers[3]['email'], customers[3]['password']))
 
     def testPrint(self):
         print("test print")
