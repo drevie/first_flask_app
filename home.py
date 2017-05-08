@@ -38,15 +38,13 @@ def showRegisterTool():
 def registerCustomer():
 
     # first_name = request.args.get('Name1')
-    first_name = request.form['Name1']
-    last_name = request.form['Name2']
-    phone_number = request.form['Number']
-    email = request.form['mail']
+    name = request.form['Name']
+    phone_number = request.form['Phone Number']
+    email = request.form['Email']
     password = request.form['Password']
-    passwordConfirm = request.form['Password2']
+    passwordConfirm = request.form['Confirm Password']
 
-    print(first_name)
-    print(last_name)
+    print(name)
     print(phone_number)
     print(email)
     print(password)
@@ -264,6 +262,90 @@ def user_page():
 @app.route('/header')
 def header():
     return render_template('login.html')
+
+
+@app.route('/adminShell')
+def printStates():
+
+    continueFlag = True
+    while(continueFlag):
+        print("You are in the admin shell")
+
+
+        print("Enter 1 to comute highest rated room type for each hotel")
+        print("Enter 2 to compute 5 best customers")
+        print("Enter 3 to compute highest rated breakfast across all hotels")
+        print("Enter 4 to compute highest rated service acrross all hotels")
+        print("Enter 0 to exit shell")
+
+        selection = int(input())
+
+        if(selection == 0):
+            continueFlag = False
+
+        elif(selection == 1 or selection == 2 or selection == 3 or selection == 4):
+
+            print("please enter dates to search from in format YYYY-MM-DD")
+            dateStart = input()
+
+            print("please enter date to search to in format YYYY-MM-DD")
+            dateEnd = input()
+
+            if(selection == 1):
+
+                db.hotel_db.cursor.execute('''SELECT HotelID, Room_no, stars FROM RoomReview 
+                                              WHERE (stars = (SELECT max(stars) FROM RoomReview)) AND (reviewDate BETWEEN date(?) AND date(?))
+                                              GROUP BY HotelID ''', (dateStart, dateEnd))
+
+                maxReviews = db.hotel_db.cursor.fetchall()
+
+                for i in range(len(maxReviews)):
+                    print("Max reviews: " + str(maxReviews[i]))
+
+
+            elif(selection == 2):
+
+                db.hotel_db.cursor.execute('''SELECT * FROM Customer 
+                                              WHERE (stars = (SELECT max(stars) FROM RoomReview)) AND (reviewDate BETWEEN date(?) AND date(?))
+                                              GROUP BY HotelID ''', (dateStart, dateEnd))
+
+                maxReviews = db.hotel_db.cursor.fetchall()
+
+                for i in range(len(maxReviews)):
+                    print("Max reviews: " + str(maxReviews[i]))
+
+            elif(selection == 3):
+
+                db.hotel_db.cursor.execute('''SELECT * FROM BreakfastReview 
+                                              WHERE (stars = (SELECT max(stars) FROM BreakfastReview)) AND (reviewDate BETWEEN date(?) AND date(?))
+                                              GROUP BY HotelID ''', (dateStart, dateEnd))
+
+                maxReviews = db.hotel_db.cursor.fetchall()
+
+                for i in range(len(maxReviews)):
+                    print("Max reviews: " + str(maxReviews[i]))
+
+            elif(selection == 4):
+
+                db.hotel_db.cursor.execute('''SELECT * FROM ServiceReview 
+                                              WHERE (stars = (SELECT max(stars) FROM ServiceReview)) AND (reviewDate BETWEEN date(?) AND date(?))
+                                              GROUP BY HotelID ''', (dateStart, dateEnd))
+
+                maxReviews = db.hotel_db.cursor.fetchall()
+
+                for i in range(len(maxReviews)):
+                    print("Max reviews: " + str(maxReviews[i]))
+
+            print("press enter to continue")
+            input()
+
+        else:
+            print("incorrect input")
+            print(selection)
+
+
+
+    pass
 
 
 '''
