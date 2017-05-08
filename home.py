@@ -132,15 +132,43 @@ def check_login():
 def review():
     global rooms, hotel_id
     if request.method == 'POST':
-        review_desc = request.form.get("review")
-        room_no = request.form.get("room_no")
-        hotel_id = request.form.get("hotel_id")
-        rating = request.form.get("rating")
-        db.hotel_db.cursor.execute('''INSERT INTO Review(Rating, TextComment, CID) VALUES (?, ?, ?)''', (rating, review_desc, session["CID"]))
-        db.hotel_db.cursor.execute('''Select ReviewID from Review where Rating = ? AND TextComment = ? AND CID = ?''', (rating, review_desc, session["CID"]))
-        reviewID = db.hotel_db.cursor.fetchone()
-        db.hotel_db.cursor.execute('''INSERT INTO RoomReview(ReviewID, Room_no, HotelID, CID) VALUES (?, ?, ?, ?)''', (reviewID, room_no, hotel_id, session["CID"]))
-        flash("Thank you for reviewing the room!")
+        if request.form['submit'] == 'Room Review':
+            review_desc = request.form.get("review")
+            room_no = request.form.get("room_no")
+            hotel_id = request.form.get("hotel_id")
+            rating = request.form.get("rating")
+            curr_date = datetime.datetime.now()
+            curr_date = time.strftime('%Y-%m-%d')
+            db.hotel_db.cursor.execute('''INSERT INTO Review(Rating, TextComment, CID) VALUES (?, ?, ?)''', (rating, review_desc, session["CID"]))
+            db.hotel_db.cursor.execute('''Select ReviewID from Review where Rating = ? AND TextComment = ? AND CID = ?''', (rating, review_desc, session["CID"]))
+            reviewID = db.hotel_db.cursor.fetchone()
+            db.hotel_db.cursor.execute('''INSERT INTO RoomReview(ReviewID, Room_no, HotelID, CID, reviewDate) VALUES (?, ?, ?, ?,?)''', (reviewID, room_no, hotel_id, session["CID"], curr_date))
+            flash("Thank you for reviewing the room!")
+        elif request.form['submit'] == 'Service Review':
+            review_desc = request.form.get("review")
+            sType = request.form.get("sType")
+            hotel_id = request.form.get("hotel_id")
+            rating = request.form.get("rating")
+            curr_date = datetime.datetime.now()
+            curr_date = time.strftime('%Y-%m-%d')
+            db.hotel_db.cursor.execute('''INSERT INTO Review(Rating, TextComment, CID) VALUES (?, ?, ?)''', (rating, review_desc, session["CID"]))
+            db.hotel_db.cursor.execute('''Select ReviewID from Review where Rating = ? AND TextComment = ? AND CID = ?''', (rating, review_desc, session["CID"]))
+            reviewID = db.hotel_db.cursor.fetchone()
+            db.hotel_db.cursor.execute('''INSERT INTO ServiceReview(ReviewID, sType, HotelID, CID, reviewDate) VALUES (?, ?, ?, ?,?)''', (reviewID, sType, hotel_id, session["CID"], curr_date))
+            flash("Thank you for reviewing the service!")
+        else:
+            #breakfast
+            review_desc = request.form.get("review")
+            bType = request.form.get("bType")
+            hotel_id = request.form.get("hotel_id")
+            rating = request.form.get("rating")
+            curr_date = datetime.datetime.now()
+            curr_date = time.strftime('%Y-%m-%d')
+            db.hotel_db.cursor.execute('''INSERT INTO Review(Rating, TextComment, CID) VALUES (?, ?, ?)''', (rating, review_desc, session["CID"]))
+            db.hotel_db.cursor.execute('''Select ReviewID from Review where Rating = ? AND TextComment = ? AND CID = ?''', (rating, review_desc, session["CID"]))
+            reviewID = db.hotel_db.cursor.fetchone()
+            db.hotel_db.cursor.execute('''INSERT INTO BreakfastReview(ReviewID, bType, HotelID, CID, reviewDate) VALUES (?, ?, ?, ?,?)''', (reviewID, bType, hotel_id, session["CID"], curr_date))
+            flash("Thank you for reviewing the Breakfast!")
         return redirect("/review#popup1")
     return render_template('reviews.html', booked_rooms = rooms, hotels = hotel_id[0])
 
@@ -170,19 +198,19 @@ def payment():
             (address, name, cvv, 'visa', date,session["CID"]))
         for room in rooms:
             print(room)
-            db.hotel_db.cursor.execute(''' INSERT into Reservation(InvoiceNo, ResDate, InDate, OutDate, Room_no, HotelID, CID, Cnumber, sType, bType) VALUES (?,?,?,?,?,?,?,?,?,?)''', 
-                (random.randint(0,99999), curr_date, check_in, check_out, int(room), hotel_id, session["CID"], cnumber, "massage", "continental" ))
+            db.hotel_db.cursor.execute(''' INSERT into Reservation(InvoiceNo, ResDate, InDate, OutDate, Room_no, HotelID, CID, Cnumber, sType, bType, price) VALUES (?,?,?,?,?,?,?,?,?,?,?)''', 
+                (random.randint(0,99999), curr_date, check_in, check_out, int(room), hotel_id, session["CID"], cnumber, "massage", "continental", int(cost[int(room)-1][1:]) ))
         #db.hotel_db.cursor.execute('''Select * from Reservation''')
         df = pd.read_sql_query("select * from Reservation;", db.hotel_db.db)
         print(df)
     return render_template('payment.html')
 
-global check_in, check_out, total_cost, rooms, hotel_id
+global check_in, check_out, total_cost, rooms, hotel_id, cost
 check_in = check_out = ""
 total_cost = 0
 @app.route('/reservation', methods=['GET', 'POST'])
 def reservation():
-    global logged_in, check_in, check_out, total_cost, rooms, hotel_id
+    global logged_in, check_in, check_out, total_cost, rooms, hotel_id, cost
 
     if request.method == 'POST':
         if request.form['submit'] == 'Search Rooms':
@@ -285,17 +313,20 @@ def printStates():
 
         elif(selection == 1 or selection == 2 or selection == 3 or selection == 4):
 
-            print("please enter dates to search from in format YYYY-MM-DD")
-            dateStart = input()
-
-            print("please enter date to search to in format YYYY-MM-DD")
-            dateEnd = input()
+            
 
             if(selection == 1):
+                print("please enter dates to search from in format YYYY-MM-DD")
+                dateStart = input()
 
-                db.hotel_db.cursor.execute('''SELECT HotelID, Room_no, stars FROM RoomReview 
-                                              WHERE (stars = (SELECT max(stars) FROM RoomReview)) AND (reviewDate BETWEEN date(?) AND date(?))
-                                              GROUP BY HotelID ''', (dateStart, dateEnd))
+                print("please enter date to search to in format YYYY-MM-DD")
+                dateEnd = input()
+
+                 
+                db.hotel_db.cursor.execute('''Select Room_no, Type from Room, 
+                    (Select Room_no room, hotelID ID from RoomReview where ReviewID in 
+                    (Select ReviewID from Review where Rating in max(Rating)) and reviewDate BETWEEN (?) AND (?)) d 
+                    where Room_no = d.Room_no and HotelID = d.ID)''', (dateStart, dateEnd))
 
                 maxReviews = db.hotel_db.cursor.fetchall()
 
@@ -304,15 +335,13 @@ def printStates():
 
 
             elif(selection == 2):
-
-                db.hotel_db.cursor.execute('''SELECT * FROM Customer 
-                                              WHERE (stars = (SELECT max(stars) FROM RoomReview)) AND (reviewDate BETWEEN date(?) AND date(?))
-                                              GROUP BY HotelID ''', (dateStart, dateEnd))
-
-                maxReviews = db.hotel_db.cursor.fetchall()
-
-                for i in range(len(maxReviews)):
-                    print("Max reviews: " + str(maxReviews[i]))
+                print(pd.read_sql_query('select * from Customer', db.hotel_db.db))
+                print(pd.read_sql_query('select * from reservation', db.hotel_db.db))
+                print(pd.read_sql_query('''select * from Customer where CID in (Select CID, sum(price) as spending from reservation GROUP BY CID order by price)''', db.hotel_db.db))
+                #db.hotel_db.cursor.execute('''Select CID, sum(price) as spending from reservation GROUP BY CID order by price''')
+                print("DID THE QUERRYYYYYY")
+                #maxReviews = db.hotel_db.cursor.fetchall()
+                print(db.hotel_db.cursor.fetchall())
 
             elif(selection == 3):
 
