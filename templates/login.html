@@ -1,6 +1,14 @@
  {% include "header.html" %}
  <div class="container">
-
+<script>
+function validateForm() {
+    var phone = document.forms["signup_form"]["number"].value;
+    if (x == "") {
+        alert("Name must be filled out");
+        return false;
+    }
+}
+</script>
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -43,16 +51,16 @@
                        
                     <div class="main-agileits">
                     <div class="sub-main">  
-                        <form action="{{ url_for('registerCustomer') }}" method="post">
-                            <input placeholder="First Name" name="Name1" class="name1" type="text" required="">
+                        <form action="{{ url_for('check_login') }}" method="post" onsubmit="return validateForm()" name="signup_form">
+                            <input placeholder="Name" name="name" class="name1" type="text" required="">
                                 <span class="icon1"><i class="fa fa-user" aria-hidden="true"></i></span><br>
-                            <input placeholder="Last Name" name="Name2" class="name2" type="text" required="">
+                            <input placeholder="Address" name="address" class="name2" type="text" required="">
                                 <span class="icon2"><i class="fa fa-user" aria-hidden="true"></i></span><br>
-                            <input placeholder="Phone Number" name="Number" class="number" type="text" required="">
+                            <input placeholder="Phone Number(xxx xxx xxxx)" name="number" class="number" required="" type="tel" pattern="^\d{3} \d{3} \d{4}$">
                                 <span class="icon3"><i class="fa fa-phone" aria-hidden="true"></i></span><br>
-                            <input placeholder="Email" name="mail" class="mail" type="text" required="">
+                            <input placeholder="Email" name="mail" class="mail" type="text" required="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
                                 <span class="icon4"><i class="fa fa-envelope" aria-hidden="true"></i></span><br>
-                            <input  placeholder="Password" name="Password" class="pass" type="password" required="">
+                            <input  placeholder="Password" name="password" class="pass" type="password" required="">
                                 <span class="icon5"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>
                             <input  placeholder="Confirm Password" name="Password2" class="pass" type="password" required="">
                                 <span class="icon6"><i class="fa fa-unlock" aria-hidden="true"></i></span><br>

@@ -14,47 +14,60 @@
                     Make a Reservation
                     </h2>
                     <hr>
-                    <table>
-                    <tr>
-                    <td> Select Country</td>
-                    <td><span style="display:inline-block; width: 25px;"></span></td>
-                    <td> Select State</td>
-                    <td><span style="display:inline-block; width: 25px;"></span></td>
-                    <td>Check-in</span></td>
-                    <td><span style="display:inline-block; width: 25px;"></span></td>
-                    <td>Check-out</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select class="dropdown" id="ddl" onchange="configureDropDownLists(this,document.getElementById('ddl2'))">
+                    <form action="{{ url_for('reservation') }}" method="post">
+                        <table>
+                        <tr>
+                        <td> Select Country</td>
+                        <td> Select State</td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <select class="dropdown" id="ddl" onchange="configureDropDownLists(this,document.getElementById('ddl2'))" name="country">
+                                    <option value="None"> </option>
+                                    <option value="USA">United States</option>
+                                    <option value="India">India</option>
+                                </select>
+                            </td>
+
+                            <td>
+                                <select class="dropdown" id="ddl2" name="state">
                                 <option value="None"> </option>
-                                <option value="USA">United States</option>
-                                <option value="India">India</option>
-                            </select>
-                        </td>
-                        <td><span style="display:inline-block; width: 25px;"></span></td>
-                        <td>
-                            <select class="dropdown" id="ddl2">
-                            <option value="None"> </option>
 
-                            </select>
-                        </td>
-                        <td><span style="display:inline-block; width: 25px;"></span></td>
-                        <td> <input type="date" name="in" id="in"> </td>
+                                </select>
+                            </td>
 
-                        <td><span style="display:inline-block; width: 25px;"></span></td>
-                        <td> <input type="date" name="out" onchange="check_date()" id="out"> </td>
+                            <td> <input type="submit" name="submit" value="Search Rooms"> </td>
+                        </tr>
+                        <tr>
+                            <td>Check-in</span></td>
+                            <td>Check-out</span></td>
 
-                        <td><span style="display:inline-block; width: 25px;"></span></td>
-                        <td> <input type="submit" name="submit" value="Search Rooms"> </td>
-                    </tr>
+                        </tr>
+                        <tr>
 
-                    </table>
+                            <td> <input type="date" name="in" id="in" onchange="check_date()"> </td>
 
+
+                            <td> <input type="date" name="out" onchange="check_date()" id="out"> </td>
+                        </tr>
+                        <tr>
+                            <td>Room Type</span></td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                <select class="dropdown" name="room">
+                                    <option value="Regular">Regular</option>
+                                    <option value="Suite">Suite</option>
+                                </select> 
+                            </td>
+                        </tr>
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="box">
                 <div class="col-lg-12">
@@ -72,24 +85,31 @@
                         .tg .tg-0nu3{font-weight:bold;font-size:18px;font-family:"Comic Sans MS", cursive, sans-serif !important;;background-color:#efefef;color:#444444}
                         .tg .tg-x49a{font-weight:bold;font-size:18px;font-family:"Comic Sans MS", cursive, sans-serif !important;;background-color:#efefef;color:#444444;vertical-align:top}
                     </style>
-                    <table class="tg">
-                      <tr>
-                        <th class="tg-0nu3">Room Type</th>
-                        <th class="tg-x49a">Number of Available Rooms</th>
-                        <th class="tg-x49a">Price Per Room</th>
-                      </tr>
-                      <tr>
-                        <td class="tg-sl89"></td>
-                        <td class="tg-sl89"></td>
-                        <td class="tg-sl89"></td>
-                      </tr>
-                      <tr>
-                        <td class="tg-sl89"></td>
-                        <td class="tg-sl89"></td>
-                        <td class="tg-sl89"></td>
-                      </tr>
-                    </table>
-                    
+                    <form action="{{ url_for('reservation') }}" method="post">
+                        <table class="tg">
+                          <tr>
+                            <th class="tg-0nu3">Room No</th>
+                            <th class="tg-x49a">Price</th>
+                            <th class="tg-x49a">Capacity</th>
+                            <th class="tg-x49a">Floor_no</th>
+                            <th class="tg-x49a">Description</th>
+                            <th class="tg-x49a">Book</th>
+                          </tr>
+                          {% for item in items %}
+                          <tr>
+                                <td>{{item[1]}}</td>
+                                <td>{{item[2]}}</td>
+                                <td>{{item[3]}}</td>
+                                <td>{{item[4]}}</td>
+                                <td>{{item[5]}}</td>
+                                <td><input type="checkbox"  name="rooms" value="{{item[1]}}"></td>
+                                <td><input type="hidden" name="hotelid" value="{{item[0]}}"></td>
+                                <td><input type="hidden" name="cost" value="{{item[2]}}"></td>
+                            </tr>
+                          {% endfor %}
+                          <input type="submit" name="submit" value="Book">
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>
@@ -149,11 +169,11 @@
 
 <script type="text/javascript">
 function check_date() {
-    var objFromDate = document.getElementById("in").value;
-var objToDate = document.getElementById("out").value;
+    var objinDate = document.getElementById("in").value;
+var objoutDate = document.getElementById("out").value;
  
-var date1 = new Date(objFromDate);
-var date2 = new Date(objToDate);
+var date1 = new Date(objinDate);
+var date2 = new Date(objoutDate);
  
 var date3 = new Date();
 var date4 = date3.getMonth() + "/" + date3.getDay() + "/" + date3.getYear();
@@ -161,19 +181,22 @@ var currentDate = new Date(date4);
  
     if(date1 > date2)
     {
-        alert("fromdate should be less than todate");
+        alert("check out must be greater than checkin!");
+        document.getElementById("out").value = null;
         return false; 
     }
-    else if(date1 > currentDate)
+    else if(date1 < currentDate)
     {
-        alert("From Date should be less than current date");
+        alert("Checkin Must be today or later");
+        document.getElementById("in").value = null;
         return false; 
     }
-               else if(date2 > currentDate) 
-               {
-                   alert("To Date should be less than current date");
+   else if(date2 < currentDate) 
+   {
+        alert("Checkout must me today or later!");
+        document.getElementById("out").value = null;
         return false; 
-                }
+    }
 }
     
 </script>

@@ -87,7 +87,7 @@ img{max-width:100%;}
 }
 /*--//icons--*/
 
-.sub-main input[type="text"],.sub-main input[type="password"]  {
+.sub-main input[type="text"],.sub-main input[type="password"], .sub-main input[type="tel"] {
     outline: none;
     font-size: 1.1em;
     margin: 4px 0px 18px 1px;

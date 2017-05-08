@@ -25,7 +25,7 @@
 
         <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="../static/js/jquery.easydropdown.js"></script>
+       <!-- <script src="../static/js/jquery.easydropdown.js"></script> -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -68,11 +68,16 @@
                     
                     <li>
                     {% if session["logged_in"] == True %}
-                        <a href="user_page">Welcome {{session["username"]}} {{session["logged_in"]}}!</a>
+                        <a href="user_page">Welcome {{session["name"]}}!</a>
                     {% else %}
                         <a href="login">Login/Register</a> 
                     {% endif %}
                     
+                    </li>
+                    <li>
+                    {% if session["logged_in"] == True %}
+                    <a href="{{ url_for('review') }}">Reviews</a>
+                    {% endif %}
                     </li>
                     <li>
                     {% if session["logged_in"] == True %}

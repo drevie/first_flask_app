@@ -66,11 +66,12 @@ class Hotel_DB:
 
         self.cursor.execute('''
             CREATE TABLE Customer(
-                CID int primary key,
+                CID integer primary key AUTOINCREMENT,
                 email varchar(50),
                 address varchar(50),
                 Phone_no varchar(50),
-                Name varchar(50)
+                Name varchar(50),
+                Password varchar(50)
             )''')
 
         self.cursor.execute('''
@@ -80,7 +81,7 @@ class Hotel_DB:
                 Name varchar(50),
                 SecCode int,
                 Type varchar(50),
-                ExpDate date,
+                ExpDate varchar(50),
                 CID int,
                 primary key(Cnumber),
                 foreign key(Name, CID) references Customer(Name, CID)
@@ -88,7 +89,7 @@ class Hotel_DB:
 
         self.cursor.execute('''
             CREATE TABLE Review(
-                ReviewID int primary key,
+                ReviewID integer primary key AUTOINCREMENT,
                 Rating int check(Rating>=1 AND Rating<=5),
                 TextComment varchar(255),
                 CID int,
@@ -154,6 +155,9 @@ class Hotel_DB:
 
         self.db.commit()
 
+    def commitDB(self):
+        self.db.commit()
+
     def insertTestValues(self):
         customers = [
             {
@@ -190,6 +194,37 @@ class Hotel_DB:
             },
 
         ]
+        # add customer
+        self.cursor.execute('''INSERT INTO customer(name, phone_no, email, password, address) VALUES(?,?,?,?,?)''', ('Raghav', 9999, 'raaghavbhardwaj@gmail.com', '12', 'some street'))
+        self.cursor.execute('''INSERT INTO customer(name, phone_no, email, password, address) VALUES(?,?,?,?,?)''', ('Dan', 1111, 'Dan@gmail.com', '12', 'some street'))
+
+        #add hotels
+        self.cursor.execute('''INSERT INTO Hotel(HotelID, Phone_no, Street, City, Country, zip) VALUES(?,?,?,?,?,?)''', ('1', 909090, '34th street', 'New York', 'USA', '1111'))
+        self.cursor.execute('''INSERT INTO Hotel(HotelID, Phone_no, Street, City, Country, zip) VALUES(?,?,?,?,?,?)''', ('2', 808080, 'Some LA Street', 'California', 'USA', '2222'))
+        self.cursor.execute('''INSERT INTO Hotel(HotelID, Phone_no, Street, City, Country, zip) VALUES(?,?,?,?,?,?)''', ('3', 505050, 'Chembur', 'Mumbai', 'India' ,'3333'))
+
+        #add rooms
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('1', '1', '$500', '2', '8','Spacious Room with view for the Skyline', 'Regular'))
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('1', '2', '$600', '3', '9','Spacious Room with view for the Skyline', 'Regular'))
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('1', '3', '$700', '4', '10','Spacious Room with view for the Skyline', 'Suite'))
+
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('2', '1', '$500', '2', '8','Overlooks LA streets', 'Regular'))
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('2', '2', '$600', '3', '9','Overlooks LA streets', 'Regular'))
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('2', '3', '$700', '4', '10','Overlooks LA streets', 'Suite'))
+
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('3', '1', 'Rs500', '2', '8','Overlooks Mumbai Skyline', 'Regular'))
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('3', '2', 'Rs600', '3', '9','Overlooks Mumbai Skyline', 'Regular'))
+        self.cursor.execute('''INSERT INTO Room(HotelID, Room_no, Price, Capacity, Floor_no, Description, Type) VALUES(?,?,?,?,?,?,?)''', ('3', '3', 'Rs700', '4', '10','Overlooks Mumbai Skyline', 'Suite'))
+
+        # add services and breakfast
+        self.cursor.execute('''INSERT INTO Breakfast(HotelID, bType, description, bprice) VALUES (?,?,?,?)''', (1,"continental", "continental breakfast", "$50"))
+        self.cursor.execute('''INSERT INTO Breakfast(HotelID, bType, description, bprice) VALUES (?,?,?,?)''', (2,"continental", "continental breakfast", "$50"))
+        self.cursor.execute('''INSERT INTO Breakfast(HotelID, bType, description, bprice) VALUES (?,?,?,?)''', (3,"continental", "continental breakfast", "$50"))
+
+
+        self.cursor.execute('''INSERT INTO Service(HotelID, sType, sCost) VALUES (?,?,?)''', (1,"massage", "$20"))
+        self.cursor.execute('''INSERT INTO Service(HotelID, sType, sCost) VALUES (?,?,?)''', (2,"massage", "$20"))
+        self.cursor.execute('''INSERT INTO Service(HotelID, sType, sCost) VALUES (?,?,?)''', (3,"massage", "$20"))
 
     def testPrint(self):
         print("test print")

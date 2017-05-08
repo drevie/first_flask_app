@@ -1,0 +1,62 @@
+        {% include "header.html" %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="../static/js/jquery.payform.min.js" charset="utf-8"></script>
+    <script src="../static/js/script.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../static/css/payment_styles.css">
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">
+                    Room Review
+                    </h2>
+                    <hr>
+                <form action="{{ url_for('review') }}" method="post">
+                    <p> Hotel: </p>
+                    <select name="hotel_id">
+                        {% for hotel in hotels %}
+                            <option value="{{hotel}}">{{hotel}}</option>
+                        {% endfor %}
+                    </select>
+                    <p> Room Number: </p>
+                    <select name="room_no">
+                        {% for room in booked_rooms %}
+                            <option value="{{room}}">{{room}}</option>
+                        {% endfor %}
+                    </select>
+                    <p> Write a Comment </p>
+                    <input type="text" name="review">
+                    <input type="submit" name="submit_room">
+                </form>
+                </div>
+            </div>
+        </div>
+
+        
+    <!-- /.container -->
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>Copyright &copy; Your Website 2014</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js')}}"></script>
+
+
+</body>
+
+</html>
